@@ -4,10 +4,11 @@
     package="com.dam.eva.pt14">
 
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
-    <uses-permission android:name="android.permission.SET_ALARM"/>
+    <uses-permission android:name="android.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="com.google.socialapp.permission.SHARE_POST"/>
+    <uses-permission android:name="com.google.socialapp.permission.SHARE_POST" />
+
 
     <application
         android:allowBackup="true"
@@ -17,6 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".NovaActivity"></activity>
         <activity
             android:name=".ScrollingActivity"
             android:label="@string/app_name"
@@ -26,12 +28,11 @@
                 <action android:name="android.intent.action.SET_ALARM" />
                 <action android:name="android.intent.action.SHOW_ALARMS" />
                 <action android:name="android.intent.action.INSERT" />
-                <data android:mimeType="vnd.android.cursor.dir/event" />
 
+                <data android:mimeType="vnd.android.cursor.dir/event" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
