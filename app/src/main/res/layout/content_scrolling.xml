@@ -23,16 +23,6 @@
          />
 
 
-        <ImageView
-            android:id="@+id/userPicture"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center_horizontal"
-            android:onClick="pickImage"
-            android:scaleType="fitCenter"
-            android:layout_alignParentRight="true"
-            android:visibility="gone"/>
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

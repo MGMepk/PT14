@@ -3,6 +3,7 @@ package com.dam.eva.pt14;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Notification;
+import android.app.SearchManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -16,10 +17,13 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.provider.AlarmClock;
 import android.provider.CalendarContract;
+import android.provider.ContactsContract;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -36,6 +40,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
 
+import static java.net.Proxy.Type.HTTP;
 import static java.util.Arrays.asList;
 
 public class ScrollingActivity extends AppCompatActivity {
@@ -47,6 +52,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 10;
     private Spinner spinner;
+
     private Bitmap bitmap ;
     private static final int REQUEST_IMAGE_PICK = 40;
     private static final int REQUEST_NEW_LINE = 20;
@@ -69,16 +75,6 @@ public class ScrollingActivity extends AppCompatActivity {
                 Intent intent=new Intent(getApplicationContext(), NovaActivity.class);
                 startActivityForResult(intent,REQUEST_NEW_LINE);
 
-                Snackbar.make(view, "Afegit nou Intent", Snackbar.LENGTH_LONG)
-                        .setAction("Desfer", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                //llista.remove();
-                                arrayAdapter.notifyDataSetChanged();
-                               // startActivity(new Intent(getApplicationContext(),NovaActivity.class));
-                            }
-                        }).show();
-
             }
         });
         /* TODO: 16/11/19 new intent
@@ -95,11 +91,17 @@ public class ScrollingActivity extends AppCompatActivity {
         listView=(ListView) findViewById(R.id.listView1);
         llista=new ArrayList<String>(asList("Open Gmail","Alarm","Timer","Show alarms",
                 "Navegador Propi","App PT13","Take picture","Pick pictures","Show contacts",
-                "ActionDIAL vs ActionCall"));
+                "ActionDIAL i ActionCall"));
 //        private static String[] NAMES=new String[] {"Tom","Jerry","Mary","Louise"};
 
-        llista.add("Altres-Instalats"); //11
-        llista.add("Calendari");
+        llista.add("Altres-Instalats"); //10
+        llista.add("Calendari");//11
+        llista.add("Insertar contacte");//12
+        llista.add("mailto:");
+        llista.add("SearchWeb");
+        llista.add("Wifi");
+        llista.add("smsto:");
+
 
 
         arrayAdapter=new ArrayAdapter<String >(this,android.R.layout.simple_list_item_1,llista);
@@ -193,16 +195,36 @@ public class ScrollingActivity extends AppCompatActivity {
                         else {
                             Toast.makeText(getApplicationContext(),
                                     "PT14 no té permissos per obrir la càmera", Toast.LENGTH_SHORT).show();
+
+                            if (ActivityCompat.shouldShowRequestPermissionRationale(ScrollingActivity.this
+                                    , Manifest.permission.CAMERA)) {
+
+                                Toast.makeText(getApplicationContext(), "Per seguretat, està deshabilitada. ",
+                                        Toast.LENGTH_LONG).show();
+                                //menu dialeg
+
+                                ActivityCompat.requestPermissions(ScrollingActivity.this
+                                        ,  new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA);
+
+                                // show an explanation to the user
+                                // asincrona:no bloquejar el thread esperant la seva resposta
+                                // Bona pràctica, try again to request the permission.
+                            } else {
+                                // request the permission.
+                                // CALLBACK_NUMBER is a integer constants
+                                //Toast.makeText(this, "demana permis ", Toast.LENGTH_SHORT).show();
+                                ActivityCompat.requestPermissions(ScrollingActivity.this
+                                        ,  new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA);
+                                // The callback method gets the result of the request.
+                            }
+
                         }
 
                         break;
 
                     case 7:
-                        intent = new Intent();
-                        intent.setType("image/*");
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
-                        intent.addCategory(Intent.CATEGORY_OPENABLE);
-                        startActivityForResult(intent,REQUEST_IMAGE_PICK);
+                        intent = new Intent(getApplicationContext(),ShowPictureAct.class);
+                        startActivity(intent);
 
                         break;
                     case 8:
@@ -211,7 +233,7 @@ public class ScrollingActivity extends AppCompatActivity {
                         startActivity(intent);
 
                         break;
-                    case 9: //action dial vs call
+                    case 9: //action dial vs call; call necesita call_phone de permisos
                         intent = new Intent(Intent.ACTION_DIAL,
                                 Uri.parse("tel:(+34)6666666"));
                         startActivity(intent);
@@ -223,11 +245,12 @@ public class ScrollingActivity extends AppCompatActivity {
 
                         // String igUrl="https://www.t.me/34687361674";
 
-                        intent=new Intent(Intent.ACTION_VIEW);
-                      //  intent.setType("text/plain");
+                        //intent=new Intent(Intent.ACTION_SEND);
 
-                        //url="http://www.escoladeltreball.org";
-                        //intent=new Intent("com.android.chrome",Uri.parse(url));
+                        //  intent.setType("text/plain");
+
+                        url="http://www.escoladeltreball.org";
+                        intent=new Intent("com.android.chrome",Uri.parse(url));
 
 
                         //intent.setPackage("cat.ereza.properbusbcn");
@@ -238,7 +261,7 @@ public class ScrollingActivity extends AppCompatActivity {
                         //intent.setPackage("com.google.android.gms");
 
                         //intent.setPackage("com.google.android.youtube");
-                        intent.setPackage("com.google.android.calculator");
+                       // intent.setPackage("com.google.android.calculator");
                         //intent.setPackage("com.google.android.tts");
                         //intent.setPackage("com.spotify.music");
                         //intent.setPackage("com.termux");
@@ -256,6 +279,7 @@ public class ScrollingActivity extends AppCompatActivity {
                         }
 
                         startActivity(intent);
+                        break;
 
                     case 11:
                         intent = new Intent(Intent.ACTION_INSERT)
@@ -267,7 +291,48 @@ public class ScrollingActivity extends AppCompatActivity {
                         if (intent.resolveActivity(getPackageManager()) != null) {
                             startActivity(intent);
                         }
+                        break;
+                    case 12:
+                        intent = new Intent(Intent.ACTION_INSERT);
+                        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+                        intent.putExtra(ContactsContract.Intents.Insert.NAME, "evie");
+                        intent.putExtra(ContactsContract.Intents.Insert.EMAIL, "eva.bcn08@gmail.com");
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(intent);
+                        }
+                        break;
+                    case 13:
+                        intent = new Intent(Intent.ACTION_SENDTO);
+                        intent.setData(Uri.parse("mailto:"));
+                        String[] addresses1={"ebarbeito@correu.escoladeltreball.org","ebarbeit@xtec.cat"};
+                        intent.putExtra(Intent.EXTRA_EMAIL, addresses1);
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "app pt14");
 
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(intent);
+                        }
+
+                        break;
+                    case 14:
+                        intent = new Intent(Intent.ACTION_WEB_SEARCH);
+                        intent.putExtra(SearchManager.QUERY, "eva barbeito");
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(intent);
+                        }
+
+                    case 15:
+                        intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(intent);
+                        }
+                    case 16:
+                        intent = new Intent(Intent.ACTION_SEND);
+                        intent.setData(Uri.parse("smsto:"));
+                        intent.putExtra("sms_body", "missatge");
+                       // intent.putExtra(Intent.EXTRA_STREAM, attachment);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(intent);
+                        }
 
 
                 }
@@ -276,20 +341,13 @@ public class ScrollingActivity extends AppCompatActivity {
         });
     }
 
-    private void pickImage(View v){
-
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(intent, REQUEST_IMAGE_PICK);
-
-    }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_OK)
+
 
             try (InputStream stream = getContentResolver().openInputStream(data.getData());)
             {
@@ -300,10 +358,11 @@ public class ScrollingActivity extends AppCompatActivity {
 
                 bitmap = BitmapFactory.decodeStream(stream);
                 //obrir nou intent aquí...
+                Log.d("test", "onClick: passa aaaa??");
 
 
-                ImageView profilePicture=(ImageView) findViewById(R.id.userPicture);
-                profilePicture.setImageBitmap(bitmap);
+                //ImageView profilePicture=(ImageView) findViewById(R.id.userPicture);
+                //profilePicture.setImageBitmap(bitmap);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -315,20 +374,23 @@ public class ScrollingActivity extends AppCompatActivity {
 
                 String res = extras.getString("nomAct");
 
-                // String res= data.getExtras().getString("nom");
-
                 llista.add(res);
                 arrayAdapter.notifyDataSetChanged();
 
+                //igual que vam fer a la PT12
                 CoordinatorLayout layout =   findViewById(R.id.linearLayout2);
+//layout.addView();
 
                 Snackbar.make(layout.getRootView(), "Afegit nou Intent", Snackbar.LENGTH_LONG)
                         .setAction("Desfer", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                //llista.remove();
+                                Log.d("test", "onClick: passa a snackbar??");
+                                llista.remove(llista.size()-1);
+                                Log.d("test", "onClick: passa llista size"+ llista.size());
+
                                 arrayAdapter.notifyDataSetChanged();
-                                // startActivity(new Intent(getApplicationContext(),NovaActivity.class));
+                               // Toast.makeText(ScrollingActivity.this, "Desfeta", Toast.LENGTH_SHORT).show();
                             }
                         }).show();
 
@@ -337,6 +399,38 @@ public class ScrollingActivity extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_CAMERA: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, do your work....
+                    Log.d("onRequestPerm", "uff");
+                    try {
+                        startActivity(new Intent("android.media.action.IMAGE_CAPTURE"));
+                        // Intent intent1=new Intent(Intent.ACTION_PICK,"MediaStore.Images.Media.EXTERNAL_CONTENT_URI");
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.d("onReq: ", e.getMessage());
+                    }
+
+                } else {
+                    // permission denied
+                    // Disable the functionality that depends on this permission.
+
+                }
+                return;
+            }
+
+            // other 'case' statements for other permssions
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

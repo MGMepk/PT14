@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".NovaActivity"></activity>
+        <activity android:name=".ShowPictureAct"></activity>
+        <activity android:name=".NovaActivity" />
         <activity
             android:name=".ScrollingActivity"
             android:label="@string/app_name"

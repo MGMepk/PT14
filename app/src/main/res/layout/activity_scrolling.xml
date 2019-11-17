@@ -7,6 +7,7 @@
     android:fitsSystemWindows="true"
     tools:context=".ScrollingActivity"
     android:id="@+id/linearLayout2">
+    <!-- todo important donar id aquí per referenciar al java per tenir vista view-->
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
