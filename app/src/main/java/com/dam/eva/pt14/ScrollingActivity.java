@@ -82,7 +82,7 @@ public class ScrollingActivity extends AppCompatActivity {
         per exemple, crear un nou contacte al llistat de l agenda de contactes, o nova trucada a la
         activity del telèfon
 */
-        setTitle("PT14");
+        setTitle("PT14 - Scrolling ListView");
 
 
         //buida
@@ -90,8 +90,8 @@ public class ScrollingActivity extends AppCompatActivity {
 
         listView=(ListView) findViewById(R.id.listView1);
         llista=new ArrayList<String>(asList("Open Gmail","Alarm","Timer","Show alarms",
-                "Navegador Propi","App PT13","Take picture","Pick pictures","Show contacts",
-                "ActionDIAL i ActionCall"));
+                "Navegador Propi","App PT13","Take picture","Pick pictures","Query mapa Edt",
+                "smsto:"));
 //        private static String[] NAMES=new String[] {"Tom","Jerry","Mary","Louise"};
 
         llista.add("Altres-Instalats"); //10
@@ -100,9 +100,10 @@ public class ScrollingActivity extends AppCompatActivity {
         llista.add("mailto:");
         llista.add("SearchWeb");
         llista.add("Wifi");
-        llista.add("smsto:");
 
 
+//trets de:
+        //https://developer.android.com/guide/components/intents-common
 
         arrayAdapter=new ArrayAdapter<String >(this,android.R.layout.simple_list_item_1,llista);
         listView.setAdapter (arrayAdapter);
@@ -130,8 +131,8 @@ public class ScrollingActivity extends AppCompatActivity {
                     case 1:
                         intent = new Intent(AlarmClock.ACTION_SET_ALARM)
                                 .putExtra(AlarmClock.EXTRA_MESSAGE, "message")
-                                .putExtra(AlarmClock.EXTRA_HOUR, "18")
-                                .putExtra(AlarmClock.EXTRA_MINUTES, "30");
+                                .putExtra(AlarmClock.EXTRA_HOUR, "1800")
+                                .putExtra(AlarmClock.EXTRA_MINUTES, "3000");
                         if (intent.resolveActivity(getPackageManager()) != null) {
                             startActivity(intent);
 
@@ -140,9 +141,8 @@ public class ScrollingActivity extends AppCompatActivity {
                     case 2:
 
                         intent = new Intent(AlarmClock.ACTION_SET_TIMER)
-
                                 .putExtra(AlarmClock.EXTRA_MESSAGE,"message2")
-                                .putExtra(AlarmClock.EXTRA_LENGTH, "120")
+                                .putExtra(AlarmClock.EXTRA_LENGTH, "120000")
                                 .putExtra(AlarmClock.EXTRA_SKIP_UI, true);
                         if (intent.resolveActivity(getPackageManager()) != null) {
                             try {
@@ -229,37 +229,43 @@ public class ScrollingActivity extends AppCompatActivity {
                         break;
                     case 8:
                         intent = new Intent(Intent.ACTION_VIEW,
-                                Uri.parse("content://contacts/people/"));
-                        startActivity(intent);
+                                Uri.parse("geo:0,0?q=escola del treball"));
 
-                        break;
-                    case 9: //action dial vs call; call necesita call_phone de permisos
-                        intent = new Intent(Intent.ACTION_DIAL,
-                                Uri.parse("tel:(+34)6666666"));
                         startActivity(intent);
+                        break;
+
+
+                    case 9: //action dial vs call; call necesita call_phone de permisos
+                        //intent = new Intent(Intent.ACTION_DIAL,
+                        //        Uri.parse("tel:(+34)6666666"));
+                        //startActivity(intent);
+                        intent = new Intent(Intent.ACTION_SEND);
+                        intent.setData(Uri.parse("smsto:"));
+                        intent.putExtra("sms_body", "missatge");
+                        // intent.putExtra(Intent.EXTRA_STREAM, attachment);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(intent);
+                        }
 
                         break;
                     case 10:
                         //Intent intent = new Intent(ReserveIntents.ACTION_RESERVE_TAXI_RESERVATION;
                         //solo wearos
 
-                        // String igUrl="https://www.t.me/34687361674";
-
+                         url="https://www.t.me/34687361674";
                         //intent=new Intent(Intent.ACTION_SEND);
 
                         //  intent.setType("text/plain");
 
-                        url="http://www.escoladeltreball.org";
-                        intent=new Intent("com.android.chrome",Uri.parse(url));
+                        //url="http://www.escoladeltreball.org";
+                        intent=new Intent("org.telegram.messenger",Uri.parse(url));
 
 
                         //intent.setPackage("cat.ereza.properbusbcn");
                         //intent=new Intent("com.dam.eva.pt11");
 
                        // intent.setPackage("org.telegram.messenger");
-
                         //intent.setPackage("com.google.android.gms");
-
                         //intent.setPackage("com.google.android.youtube");
                        // intent.setPackage("com.google.android.calculator");
                         //intent.setPackage("com.google.android.tts");
@@ -315,25 +321,18 @@ public class ScrollingActivity extends AppCompatActivity {
                         break;
                     case 14:
                         intent = new Intent(Intent.ACTION_WEB_SEARCH);
-                        intent.putExtra(SearchManager.QUERY, "eva barbeito");
+                        intent.putExtra(SearchManager.QUERY, "com guanyar la loteria");
                         if (intent.resolveActivity(getPackageManager()) != null) {
                             startActivity(intent);
                         }
+                        break;
 
                     case 15:
                         intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
                         if (intent.resolveActivity(getPackageManager()) != null) {
                             startActivity(intent);
                         }
-                    case 16:
-                        intent = new Intent(Intent.ACTION_SEND);
-                        intent.setData(Uri.parse("smsto:"));
-                        intent.putExtra("sms_body", "missatge");
-                       // intent.putExtra(Intent.EXTRA_STREAM, attachment);
-                        if (intent.resolveActivity(getPackageManager()) != null) {
-                            startActivity(intent);
-                        }
-
+                        break;
 
                 }
 

@@ -26,6 +26,8 @@ public class ShowPictureAct extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_picture);
+        setTitle("Mostra foto");
+
         imageView = (ImageView) findViewById(R.id.imgView);
 
         imageView.setOnClickListener(new View.OnClickListener() {
