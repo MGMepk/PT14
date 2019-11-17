@@ -202,7 +202,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
                     case 4:
                         url="http://www.escoladeltreball.com";
-                        //si provem altres url, no oferirà NavegadorPropi, ha de poder oferir altres tipus View
+                        //si provem altres url com la de dalt, no oferirà NavegadorPropi, ha de poder oferir altres tipus View
 
                         url="http://www.escoladeltreball.org";
 
