@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 public class NovaActivity extends AppCompatActivity {
 
-    String nomAct;
+    String nomAct="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +29,25 @@ public class NovaActivity extends AppCompatActivity {
           nomAct=editText.getText().toString();
           finish();
 
-      } else Toast.makeText(this, "Activity buida", Toast.LENGTH_SHORT).show();
+      } else Toast.makeText(this, "Activity buida, afegeix un nom", Toast.LENGTH_SHORT).show();
 
     }
+
 
 
     @Override
     public void finish() {
 
-        Intent intent=new Intent();
-        intent.putExtra("nomAct",nomAct);
-        setResult(RESULT_OK,intent);
-
+        if (!nomAct.equals("")) {
+            Intent intent = new Intent();
+            intent.putExtra("nomAct", nomAct);
+            setResult(RESULT_OK, intent);
+        } else {
+            //back botó , torna com a canceled
+            Intent intent = new Intent();
+            intent.putExtra("nomAct", "");
+            setResult(RESULT_CANCELED, intent);
+        }
         super.finish();
     }
 

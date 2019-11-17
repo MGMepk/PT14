@@ -379,9 +379,8 @@ public class ScrollingActivity extends AppCompatActivity {
 
                 bitmap = BitmapFactory.decodeStream(stream);
                 //obrir nou intent aquí...
-                Log.d("test", "onClick: passa aaaa??");
-
-
+                //abans hi havia un imageview a aquest layout...
+                //ara saltem a una nova activty
                 //ImageView profilePicture=(ImageView) findViewById(R.id.userPicture);
                 //profilePicture.setImageBitmap(bitmap);
 
@@ -401,6 +400,7 @@ public class ScrollingActivity extends AppCompatActivity {
                 //igual que vam fer a la PT12
                 CoordinatorLayout layout =   findViewById(R.id.linearLayout2);
 //layout.addView();
+                // TODO: 17/11/19
 
                 Snackbar.make(layout.getRootView(), "Afegit nou Intent", Snackbar.LENGTH_LONG)
                         .setAction("Desfer", new View.OnClickListener() {
