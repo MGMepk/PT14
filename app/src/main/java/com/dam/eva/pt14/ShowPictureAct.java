@@ -46,7 +46,7 @@ public class ShowPictureAct extends AppCompatActivity  {
 
     }
 
-
+    //https://developer.android.com/training/basics/intents/result
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
