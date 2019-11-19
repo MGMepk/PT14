@@ -77,7 +77,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
             }
         });
-        /* TODO: 16/11/19 new intent
+        /*
         exemple de listener al floating action button (botó que flota, i permet una acció principal
         per exemple, se sol usar per crear un nou contacte al llistat de l agenda de contactes, o nova trucada a la
         activity del telèfon
@@ -298,7 +298,7 @@ public class ScrollingActivity extends AppCompatActivity {
                          intent.setType("text/plain");
                          intent.setPackage("org.telegram.messenger");
 
-                        // TODO: 17/11/19  obrir-los...
+                        // TODO: 17/11/19
                        // intent.setPackage("com.google.android.youtube");
                        //intent.setPackage("com.spotify.music");
                         //intent.setPackage("com.termux");
@@ -400,13 +400,13 @@ public class ScrollingActivity extends AppCompatActivity {
                 //igual que vam fer a la PT12
                 CoordinatorLayout layout =   findViewById(R.id.linearLayout2);
 //layout.addView();
-                // TODO: 17/11/19
+                // TODO: */11/19
 
                 Snackbar.make(layout.getRootView(), "Afegit nou Intent", Snackbar.LENGTH_LONG)
                         .setAction("Desfer", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Log.d("test", "onClick: passa a snackbar??");
+                                Log.d("test", "onClick: passa a snackbar");
                                 llista.remove(llista.size()-1);
                                 Log.d("test", "onClick: passa llista size"+ llista.size());
 
