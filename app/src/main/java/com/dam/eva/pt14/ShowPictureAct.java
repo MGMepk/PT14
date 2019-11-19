@@ -33,10 +33,9 @@ public class ShowPictureAct extends AppCompatActivity  {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              //  Toast.makeText(ShowPictureAct.this, "eva", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
                 intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);  //ACTION_OPEN_DOCUMENT també
+                intent.setAction(Intent.ACTION_GET_CONTENT);  //ACTION_OPEN_DOCUMENT
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 Log.d("test", "onActivityResult:not ok ");
 
@@ -60,9 +59,7 @@ public class ShowPictureAct extends AppCompatActivity  {
                 if (bitmap != null) {
                     bitmap.recycle();
                 }
-                Log.d("test", "onClick: passa1");
                 bitmap = BitmapFactory.decodeStream(stream);
-                Log.d("test", "onClick: passa2");
                 imageView.setImageBitmap(bitmap);
 
             } catch (Exception e) {

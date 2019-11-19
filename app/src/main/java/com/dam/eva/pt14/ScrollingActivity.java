@@ -77,7 +77,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
             }
         });
-        /*
+        /* A dalt,
         exemple de listener al floating action button (botó que flota, i permet una acció principal
         per exemple, se sol usar per crear un nou contacte al llistat de l agenda de contactes, o nova trucada a la
         activity del telèfon
@@ -85,9 +85,8 @@ public class ScrollingActivity extends AppCompatActivity {
         setTitle("PT14 - Scrolling ListView");
 
 
-
         //ArrayList<String> llista=  new ArrayList<String>();
-//        private static String[] NAMES=new String[] {"Tom","Jerry","Mary","Louise"};
+//        private static String[] NAMES=new String[] {"Tom","Jerry"};
 
         listView=(ListView) findViewById(R.id.listView1);
         llista=new ArrayList<String>(asList("Open Gmail i més","Només Gmail, mailto:","Show alarms",
@@ -100,6 +99,7 @@ public class ScrollingActivity extends AppCompatActivity {
         llista.add("Insertar contacte");//12
         llista.add("Wifi"); //13
         llista.add("sms to");//14
+        // TODO: 19/11/19 afegir codi calculadora a la llista, i fer que torni un paràmetre de resultat 
 
 
         //tots trets de:
@@ -201,7 +201,7 @@ public class ScrollingActivity extends AppCompatActivity {
                         } else  startActivity(intent);
 
                     case 4:
-                        url="http://www.escoladeltreball.com";
+                        //url="http://www.escoladeltreball.com";
                         //si provem altres url com la de dalt, no oferirà NavegadorPropi, ha de poder oferir altres tipus View
 
                         url="http://www.escoladeltreball.org";
@@ -283,7 +283,6 @@ public class ScrollingActivity extends AppCompatActivity {
                         //startActivity(intent);
 
                     case 10:
-                        //Intent intent = new Intent(ReserveIntents.ACTION_RESERVE_TAXI_RESERVATION;
 
                         // invoca telegram per enviar missatge, sino hi és, gmail, o Drive...
 
@@ -367,28 +366,7 @@ public class ScrollingActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_OK)
-
-
-            try (InputStream stream = getContentResolver().openInputStream(data.getData());)
-            {
-                // recyle unused bitmaps
-                if (bitmap != null) {
-                    bitmap.recycle();
-                }
-
-                bitmap = BitmapFactory.decodeStream(stream);
-                //obrir nou intent aquí...
-                //abans hi havia un imageview a aquest layout...
-                //ara saltem a una nova activty
-                //ImageView profilePicture=(ImageView) findViewById(R.id.userPicture);
-                //profilePicture.setImageBitmap(bitmap);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.d( "test: ",e.getMessage()+e.getCause());
-            }
-        else if (requestCode==REQUEST_NEW_LINE && resultCode==Activity.RESULT_OK) {
+        if (requestCode==REQUEST_NEW_LINE && resultCode==Activity.RESULT_OK) {
             Bundle extras = data.getExtras();
             if (extras != null) {
 
@@ -397,10 +375,11 @@ public class ScrollingActivity extends AppCompatActivity {
                 llista.add(res);
                 arrayAdapter.notifyDataSetChanged();
 
-                //igual que vam fer a la PT12
+                //igual que PT12
                 CoordinatorLayout layout =   findViewById(R.id.linearLayout2);
-//layout.addView();
-                // TODO: */11/19
+
+                //layout.addView(); todo acabar
+
 
                 Snackbar.make(layout.getRootView(), "Afegit nou Intent", Snackbar.LENGTH_LONG)
                         .setAction("Desfer", new View.OnClickListener() {
