@@ -53,7 +53,6 @@ public class ShowPictureAct extends AppCompatActivity  {
 
         if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_OK)
 
-
             try (InputStream stream = getContentResolver().openInputStream(data.getData());) {
                 // recyle unused bitmaps
                 if (bitmap != null) {

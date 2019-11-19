@@ -53,7 +53,6 @@ public class NovaActivity extends AppCompatActivity {
 
     public void Tornar(View view) {
 
-
         super.finish();
 
     }

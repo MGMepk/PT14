@@ -99,8 +99,8 @@ public class ScrollingActivity extends AppCompatActivity {
         llista.add("Insertar contacte");//12
         llista.add("Wifi"); //13
         llista.add("sms to");//14
-        // TODO: 19/11/19 afegir codi calculadora a la llista, i fer que torni un paràmetre de resultat 
-
+        // TODO: 19/11/19 afegir codi calculadora a la llista, i fer que torni un paràmetre de resultat
+        //llista.add("Calculadora");
 
         //tots trets de:
         //https://developer.android.com/guide/components/intents-common
@@ -291,13 +291,13 @@ public class ScrollingActivity extends AppCompatActivity {
                         //intent=new Intent(Intent.ACTION_VIEW,Uri.parse(url));
                        // intent=new Intent(Intent.CATEGORY_OPENABLE);
 
-                         String miss="t'estimo!!!!";
+                         String miss="què fas?";
                          intent=new Intent(Intent.ACTION_SEND);
                          intent.putExtra(Intent.EXTRA_TEXT,miss);
                          intent.setType("text/plain");
                          intent.setPackage("org.telegram.messenger");
 
-                        // TODO: 17/11/19
+                        // TODO: 19/11/19 obrir (intentar-ho al menys) aquests de sota a altres línies de la ListView
                        // intent.setPackage("com.google.android.youtube");
                        //intent.setPackage("com.spotify.music");
                         //intent.setPackage("com.termux");
@@ -349,7 +349,7 @@ public class ScrollingActivity extends AppCompatActivity {
                         if (intent.resolveActivity(getPackageManager()) == null) {
                             Log.d("test", "Couldn't find it:alternatives showing");
                             intent = new Intent(Intent.ACTION_SEND);
-                            intent.putExtra(Intent.EXTRA_TEXT,"missatge sms t'estimo");
+                            intent.putExtra(Intent.EXTRA_TEXT,"missatge sms");
                             intent.setType("text/plain");
                         }
                         startActivity(intent);
@@ -377,10 +377,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
                 //igual que PT12
                 CoordinatorLayout layout =   findViewById(R.id.linearLayout2);
-
-                //layout.addView(); todo acabar
-
-
+                //layout.addView();
                 Snackbar.make(layout.getRootView(), "Afegit nou Intent", Snackbar.LENGTH_LONG)
                         .setAction("Desfer", new View.OnClickListener() {
                             @Override
@@ -408,7 +405,7 @@ public class ScrollingActivity extends AppCompatActivity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted, do your work....
-                    Log.d("onRequestPerm", "uff");
+                    Log.d("onRequestPerm", "donats");
                     try {
                         startActivity(new Intent("android.media.action.IMAGE_CAPTURE"));
                         // Intent intent1=new Intent(Intent.ACTION_PICK,"MediaStore.Images.Media.EXTERNAL_CONTENT_URI");
