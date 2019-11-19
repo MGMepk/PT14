@@ -1,23 +1,21 @@
-package com.dam.eva.pt14;
+package com.dam.manuelgarcia.pt14;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.io.InputStream;
 
-public class ShowPictureAct extends AppCompatActivity  {
+public class ShowPictureAct extends AppCompatActivity {
 
-    private Bitmap bitmap ;
+    private Bitmap bitmap;
     private static final int REQUEST_IMAGE_PICK = 40;
 
     private ImageView imageView;
@@ -28,7 +26,7 @@ public class ShowPictureAct extends AppCompatActivity  {
         setContentView(R.layout.activity_show_picture);
         setTitle("Mostra foto");
 
-        imageView = (ImageView) findViewById(R.id.imgView);
+        imageView = findViewById(R.id.imgView);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,4 +69,4 @@ public class ShowPictureAct extends AppCompatActivity  {
     }
 
 
-    }
+}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.dam.eva.pt14">
+    package="com.dam.manuelgarcia.pt14">
 
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.SET_ALARM" />
@@ -17,16 +17,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ShowPictureAct"></activity>
-        <activity android:name=".NovaActivity">
+        <activity android:name="com.dam.manuelgarcia.pt14.ShowPictureAct"></activity>
+        <activity android:name="com.dam.manuelgarcia.pt14.NovaActivity">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ScrollingActivity" />
+                android:value="com.dam.manuelgarcia.pt14.ScrollingActivity" />
         </activity>
 
         <activity
-            android:name=".ScrollingActivity"
+            android:name="com.dam.manuelgarcia.pt14.ScrollingActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.SET_TIMER" />
