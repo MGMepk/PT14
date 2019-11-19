@@ -184,7 +184,8 @@ public class ScrollingActivity extends AppCompatActivity {
                             Toast.makeText(ScrollingActivity.this, "No pot obrir Show_Alarms", Toast.LENGTH_LONG).show();
                         break;
                     case 3:
-
+// TODO: 19/11/19 obre la teva pt12
+                        
                         //cal declarar-la com a invocable al seu manifest,
                         // a mainActivity  posant default a la categoria
                         //cal això a manifest de PT12, afegir al intent-filter que ja tenim de Launcher
@@ -201,6 +202,7 @@ public class ScrollingActivity extends AppCompatActivity {
                         } else  startActivity(intent);
 
                     case 4:
+                        // TODO: 19/11/19 obre el teu navegador propi 
                         //url="http://www.escoladeltreball.com";
                         //si provem altres url com la de dalt, no oferirà NavegadorPropi, ha de poder oferir altres tipus View
 
@@ -215,6 +217,7 @@ public class ScrollingActivity extends AppCompatActivity {
                         break;
 
                     case 5:
+                        // TODO: 19/11/19 obre la teva pt13
                         intent=new Intent("com.example.ausias.pt13.Proves");
                         startActivity(intent);
                         break;
@@ -374,6 +377,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
                 llista.add(res);
                 arrayAdapter.notifyDataSetChanged();
+
 
                 //igual que PT12
                 CoordinatorLayout layout =   findViewById(R.id.linearLayout2);

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ public class NovaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nova);
         setTitle("Afegeix intent");
+       // getSupportActionBar().setHomeButtonEnabled(true);
 
     }
 
@@ -43,11 +45,14 @@ public class NovaActivity extends AppCompatActivity {
             intent.putExtra("nomAct", nomAct);
             setResult(RESULT_OK, intent);
         } else {
+            Log.d("test", "passa finish ");
             //back botó , torna com a canceled
             Intent intent = new Intent();
             intent.putExtra("nomAct", "");
             setResult(RESULT_CANCELED, intent);
         }
+        Log.d("test", "passa ");
+
         super.finish();
     }
 
