@@ -200,6 +200,7 @@ public class ScrollingActivity extends AppCompatActivity {
                             Log.d("test", "Couldn't find it:alternatives showing");
                             //   intent = new Intent(Intent.ACTION_VIEW);
                         } else  startActivity(intent);
+                        break;
 
                     case 4:
                         // TODO: 19/11/19 obre el teu navegador propi 
