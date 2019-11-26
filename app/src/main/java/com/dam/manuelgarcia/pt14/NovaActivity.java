@@ -18,13 +18,12 @@ public class NovaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nova);
         setTitle("Afegeix intent");
-        // getSupportActionBar().setHomeButtonEnabled(true);
 
     }
 
     public void AddIntent(View view) {
 
-        EditText editText = (EditText) findViewById(R.id.edtEntraNomAct);
+        EditText editText = findViewById(R.id.edtEntraNomAct);
 
         if (!editText.getText().toString().isEmpty()) {
 

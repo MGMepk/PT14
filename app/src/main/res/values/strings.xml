@@ -90,4 +90,5 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+    <string name="alert">Alerta: Carrega el mòbil o s\'apagarà!!!! Té gana</string>
 </resources>

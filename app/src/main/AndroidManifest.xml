@@ -17,16 +17,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.dam.manuelgarcia.pt14.ShowPictureAct"></activity>
-        <activity android:name="com.dam.manuelgarcia.pt14.NovaActivity">
+        <activity android:name=".BatteryReceiver">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dam.manuelgarcia.pt14.ScrollingActivity" />
+        </activity>
+        <activity android:name=".ShowPictureAct" />
+        <activity android:name=".NovaActivity">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.dam.manuelgarcia.pt14.ScrollingActivity" />
         </activity>
-
         <activity
-            android:name="com.dam.manuelgarcia.pt14.ScrollingActivity"
+            android:name=".ScrollingActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.SET_TIMER" />

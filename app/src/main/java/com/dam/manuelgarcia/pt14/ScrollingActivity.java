@@ -282,7 +282,7 @@ public class ScrollingActivity extends AppCompatActivity {
                     case 11:
                         intent = new Intent(Intent.ACTION_INSERT)
                                 .setData(CalendarContract.Events.CONTENT_URI)
-                                .putExtra(CalendarContract.Events.TITLE, "party")
+                                .putExtra(CalendarContract.Events.TITLE, "Examen Android")
                                 .putExtra(CalendarContract.Events.EVENT_LOCATION, "bcn")
                                 .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, 1000)
                                 .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, "2000000");
@@ -322,17 +322,11 @@ public class ScrollingActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case 15:
-
                         //Mostra la teva calculadora de activitat 13
                         intent = new Intent("com.manuelgarcia.pt13b.Calculadora");
-
-                        // TODO: 19/11/19 fer que torni un paràmetre de resultat
-                        //Modifcarem la PT-13 perque retorni el valor a la PT-14
-
                         if (intent.resolveActivity(getPackageManager()) == null) {
                             Log.d("test", "Couldn't find it:alternatives showing");
                         } else startActivity(intent);
-
                         break;
 
                 }
