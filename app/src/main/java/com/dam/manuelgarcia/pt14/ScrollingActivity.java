@@ -44,7 +44,10 @@ public class ScrollingActivity extends AppCompatActivity {
     ArrayAdapter<String> arrayAdapter;
 
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 10;
+    private static final int MY_PERMISSIONS_REQUEST_STORAGE = 50;
     private Spinner spinner;
+
+    private BatteryReceiver battery = new BatteryReceiver();
 
     private Bitmap bitmap;
     private static final int REQUEST_IMAGE_PICK = 40;
@@ -74,8 +77,9 @@ public class ScrollingActivity extends AppCompatActivity {
         acció principal per exemple, se sol usar per crear un nou contacte al llistat de l agenda
         de contactes, o nova trucada a la activity del telèfon */
 
-        setTitle("PT14 - Scrolling ListView");
 
+
+        setTitle("PT14 - Scrolling ListView");
 
         listView = findViewById(R.id.listView1);
         llista = new ArrayList<>(asList("Open Gmail i més", "Només Gmail, mailto:", "Show alarms",
@@ -88,7 +92,7 @@ public class ScrollingActivity extends AppCompatActivity {
         llista.add("Insertar contacte");//12
         llista.add("Wifi"); //13
         llista.add("sms to");//14
-        llista.add("Calculadora");
+        llista.add("Calculadora");//15
 
         //tots trets de:
         //https://developer.android.com/guide/components/intents-common
@@ -108,9 +112,6 @@ public class ScrollingActivity extends AppCompatActivity {
                         String[] addresses = {"ebarbeito@correu.escoladeltreball.org", "ebarbeit@xtec.cat"};
                         intent.putExtra(Intent.EXTRA_EMAIL, addresses);
                         intent.putExtra(Intent.EXTRA_SUBJECT, "testing app pt14");
-                        //intent.putExtra(Intent.EXTRA_REFERRER,"ebarbeit@xtec.cat");
-                        //intent.putExtra(Intent.EXTRA_STREAM, attachment);
-
                         if (intent.resolveActivity(getPackageManager()) != null) {
                             startActivity(intent);
                         }
@@ -126,23 +127,11 @@ public class ScrollingActivity extends AppCompatActivity {
 
                         if (intent.resolveActivity(getPackageManager()) != null) {
                             startActivity(intent);
-                        }
-
-                        /* cal mirar paràmetres
-                        intent = new Intent(AlarmClock.ACTION_SET_ALARM)
-                                .putExtra(AlarmClock.EXTRA_MESSAGE, "message")
-                                .putExtra(AlarmClock.EXTRA_HOUR, "8000")
-                                .putExtra(AlarmClock.EXTRA_MINUTES, "3000");
-                        */
-                        if (intent.resolveActivity(getPackageManager()) != null) {
-                            startActivity(intent);
 
                         } else
                             Toast.makeText(ScrollingActivity.this, "No pot obrir cap", Toast.LENGTH_LONG).show();
-
                         break;
                     case 2:
-
                         intent = new Intent(AlarmClock.ACTION_SHOW_ALARMS);
                         if (intent.resolveActivity(getPackageManager()) != null) {
                             try {
@@ -156,11 +145,8 @@ public class ScrollingActivity extends AppCompatActivity {
                             Toast.makeText(ScrollingActivity.this, "No pot obrir Show_Alarms", Toast.LENGTH_LONG).show();
                         break;
                     case 3:
-
                         //Mostra la teva activitat 12
                         intent = new Intent("com.manuelgarcia.pt12.MainActivity");
-
-
                         if (intent.resolveActivity(getPackageManager()) == null) {
                             Log.d("test", "Couldn't find it:alternatives showing");
                             //   intent = new Intent(Intent.ACTION_VIEW);
@@ -168,12 +154,7 @@ public class ScrollingActivity extends AppCompatActivity {
                         break;
 
                     case 4:
-
-                        //url="http://www.escoladeltreball.com";
-                        //si provem altres url com la de dalt, no oferirà NavegadorPropi, ha de poder oferir altres tipus View
-
                         url = "http://www.escoladeltreball.org";
-
                         intent = new Intent("com.manuelgarcia.pt13b.NavegadorPropi", Uri.parse(url));
                         if (intent.resolveActivity(getPackageManager()) == null) {
                             Log.d("test", "Couldn't find it:alternatives showing");
@@ -181,12 +162,10 @@ public class ScrollingActivity extends AppCompatActivity {
                         }
                         startActivity(intent);
                         break;
-
                     case 5:
                         intent = new Intent("com.manuelgarcia.pt13b.MainActivity");
                         startActivity(intent);
                         break;
-
                     case 6:
 
                         int permCheck = ContextCompat.checkSelfPermission(getApplicationContext(),
@@ -197,7 +176,6 @@ public class ScrollingActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(getApplicationContext(),
                                     "PT14 no té permissos per obrir la càmera", Toast.LENGTH_SHORT).show();
-
                             if (ActivityCompat.shouldShowRequestPermissionRationale(ScrollingActivity.this
                                     , Manifest.permission.CAMERA)) {
 
@@ -206,15 +184,11 @@ public class ScrollingActivity extends AppCompatActivity {
                                 //menu dialeg
 
                                 ActivityCompat.requestPermissions(ScrollingActivity.this
-                                        , new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA);
-
-                                // show an explanation to the user
-                                // asincrona:no bloquejar el thread esperant la seva resposta
-                                // Bona pràctica, try again to request the permission.
+                                        , new String[]{Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_CAMERA);
                             } else {
                                 // request the permission.
                                 // CALLBACK_NUMBER is a integer constants
-                                //Toast.makeText(this, "demana permis ", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(this, "demana permís ", Toast.LENGTH_SHORT).show();
                                 ActivityCompat.requestPermissions(ScrollingActivity.this
                                         , new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA);
                                 // The callback method gets the result of the request.
@@ -223,20 +197,15 @@ public class ScrollingActivity extends AppCompatActivity {
                         }
 
                         break;
-
                     case 7:
                         intent = new Intent(getApplicationContext(), ShowPictureAct.class);
                         startActivity(intent);
-
                         break;
                     case 8:
                         intent = new Intent(Intent.ACTION_VIEW,
                                 Uri.parse("geo:0,0?q=escola del treball"));
-
                         startActivity(intent);
                         break;
-
-
                     case 9:
                         intent = new Intent(Intent.ACTION_WEB_SEARCH);
                         intent.putExtra(SearchManager.QUERY, "learn android");
@@ -244,20 +213,8 @@ public class ScrollingActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                         break;
-                    //action dial vs call; call necesita call_phone de permisos
-                    //intent = new Intent(Intent.ACTION_DIAL,
-                    //        Uri.parse("tel:(+34)6666666"));
-                    //startActivity(intent);
 
                     case 10:
-
-                        // invoca telegram per enviar missatge, sino hi és, gmail, o Drive...
-
-                        //això ofereix els navegadors
-                        // url="https://www.t.me/34posaelteutelefon";
-                        //intent=new Intent(Intent.ACTION_VIEW,Uri.parse(url));
-                        // intent=new Intent(Intent.CATEGORY_OPENABLE);
-
                         String miss = "què fas?";
                         intent = new Intent(Intent.ACTION_SEND);
                         intent.putExtra(Intent.EXTRA_TEXT, miss);
@@ -387,7 +344,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
                     } catch (Exception e) {
                         e.printStackTrace();
-                        Log.d("onReq: ", e.getMessage());
+                        Log.d("onReq: ", e.getMessage() + e.getCause());
                     }
 
                 } else {
@@ -397,8 +354,11 @@ public class ScrollingActivity extends AppCompatActivity {
                 }
                 return;
             }
+            case MY_PERMISSIONS_REQUEST_STORAGE:
 
-            // other 'case' statements for other permssions
+                return;
+            default:
+                throw new IllegalStateException("Unexpected value: " + requestCode);
         }
     }
 

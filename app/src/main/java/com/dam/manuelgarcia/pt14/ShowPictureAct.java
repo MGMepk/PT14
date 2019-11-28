@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import java.io.InputStream;
+import java.util.Objects;
 
 public class ShowPictureAct extends AppCompatActivity {
 
@@ -49,10 +50,9 @@ public class ShowPictureAct extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_OK)
-
-            try (InputStream stream = getContentResolver().openInputStream(data.getData());) {
-                // recyle unused bitmaps
+        if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_OK) {
+            try (InputStream stream = getContentResolver().openInputStream(Objects.requireNonNull(data.getData()))) {
+                // recycle unused bitmaps
                 if (bitmap != null) {
                     bitmap.recycle();
                 }
@@ -63,7 +63,7 @@ public class ShowPictureAct extends AppCompatActivity {
                 e.printStackTrace();
                 Log.d("test", e.getMessage() + e.getCause());
             }
-        else if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_CANCELED) {
+        } else if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_CANCELED) {
             Log.d("test", "onActivityResult:not ok ");
         }
     }

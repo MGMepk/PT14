@@ -9,6 +9,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.socialapp.permission.SHARE_POST" />
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_pt14"
@@ -16,12 +20,12 @@
         android:roundIcon="@mipmap/ic_pt14_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".BatteryReceiver">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.dam.manuelgarcia.pt14.ScrollingActivity" />
-        </activity>
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        <receiver android:name=".BatteryReceiver">
+            <action android:name="android.intent.action.BATTERY_LOW" />
+            <action android:name="android.intent.action.BATTERY_OKAY" />
+        </receiver>
+
         <activity android:name=".ShowPictureAct" />
         <activity android:name=".NovaActivity">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
