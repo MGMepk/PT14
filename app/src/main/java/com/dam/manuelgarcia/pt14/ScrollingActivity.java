@@ -2,8 +2,12 @@ package com.dam.manuelgarcia.pt14;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.SearchManager;
+import android.content.BroadcastReceiver;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -29,7 +33,6 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -45,9 +48,9 @@ public class ScrollingActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 10;
     private static final int MY_PERMISSIONS_REQUEST_STORAGE = 50;
-    private Spinner spinner;
 
-    private BatteryReceiver battery = new BatteryReceiver();
+    BroadcastReceiver battery = new BatteryReceiver();
+
 
     private Bitmap bitmap;
     private static final int REQUEST_IMAGE_PICK = 40;
@@ -73,10 +76,14 @@ public class ScrollingActivity extends AppCompatActivity {
             }
         });
 
+        IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_LOW);
+//        filter.addAction(CONNECTIVITY_ACTION);
+        filter.addAction(Intent.ACTION_BOOT_COMPLETED);
+        registerReceiver(battery, filter);
+
         /* A dalt, exemple de listener al floating action button (botó que flota, i permet una
         acció principal per exemple, se sol usar per crear un nou contacte al llistat de l agenda
         de contactes, o nova trucada a la activity del telèfon */
-
 
 
         setTitle("PT14 - Scrolling ListView");
@@ -167,33 +174,13 @@ public class ScrollingActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case 6:
-
                         int permCheck = ContextCompat.checkSelfPermission(getApplicationContext(),
                                 Manifest.permission.CAMERA);
                         if (permCheck == PackageManager.PERMISSION_GRANTED) {
                             intent = new Intent("android.media.action.IMAGE_CAPTURE");
                             startActivity(intent);
                         } else {
-                            Toast.makeText(getApplicationContext(),
-                                    "PT14 no té permissos per obrir la càmera", Toast.LENGTH_SHORT).show();
-                            if (ActivityCompat.shouldShowRequestPermissionRationale(ScrollingActivity.this
-                                    , Manifest.permission.CAMERA)) {
-
-                                Toast.makeText(getApplicationContext(), "Per seguretat, està deshabilitada. ",
-                                        Toast.LENGTH_LONG).show();
-                                //menu dialeg
-
-                                ActivityCompat.requestPermissions(ScrollingActivity.this
-                                        , new String[]{Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_CAMERA);
-                            } else {
-                                // request the permission.
-                                // CALLBACK_NUMBER is a integer constants
-                                //Toast.makeText(this, "demana permís ", Toast.LENGTH_SHORT).show();
-                                ActivityCompat.requestPermissions(ScrollingActivity.this
-                                        , new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA);
-                                // The callback method gets the result of the request.
-                            }
-
+                            requestCameraPermission();
                         }
 
                         break;
@@ -328,20 +315,59 @@ public class ScrollingActivity extends AppCompatActivity {
 
     }
 
+
+    private void requestCameraPermission() {
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(ScrollingActivity.this
+                , Manifest.permission.CAMERA)) {
+            // entra aquí quan
+            //l'ha denegat un primer cop, i torna després a demanar permís..
+            // vol dir que no ha entés el permís, li donem una explicació de per qué ho necessitem
+            // amb un menu de diàleg
+
+            //menu dialeg
+            new AlertDialog.Builder(this)
+                    .setTitle("Es necessita permís de càmera")
+                    .setMessage("Per fer fotos necessitem accedir a la càmera")
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions(ScrollingActivity.this
+                                    , new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA);
+                        }
+                    })
+                    .setNegativeButton("cancel.lar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create().show();
+
+            // ActivityCompat.requestPermissions són crides asíncrones
+            // asincrona:no bloquejar el thread esperant la seva resposta
+            // Bona pràctica, try again to request the permission.
+        } else {
+            // request the permission.
+            // CALLBACK_NUMBER is a integer constants
+            ActivityCompat.requestPermissions(ScrollingActivity.this
+                    , new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA);
+            // The callback method gets the result of the request.
+        }
+
+    }
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_CAMERA: {
-                // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted, do your work....
                     Log.d("onRequestPerm", "donats");
                     try {
                         startActivity(new Intent("android.media.action.IMAGE_CAPTURE"));
-                        // Intent intent1=new Intent(Intent.ACTION_PICK,"MediaStore.Images.Media.EXTERNAL_CONTENT_URI");
-
-
                     } catch (Exception e) {
                         e.printStackTrace();
                         Log.d("onReq: ", e.getMessage() + e.getCause());
@@ -355,11 +381,23 @@ public class ScrollingActivity extends AppCompatActivity {
                 return;
             }
             case MY_PERMISSIONS_REQUEST_STORAGE:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    try {
+                        startActivity(new Intent("android."));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.d("onReq: ", e.getMessage() + e.getCause());
+                    }
 
+                } else {
+                    Log.d("ajop", "que ha pasat");
+                }
                 return;
             default:
                 throw new IllegalStateException("Unexpected value: " + requestCode);
         }
+
     }
 
     @Override
@@ -381,5 +419,11 @@ public class ScrollingActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(battery);
     }
 }
