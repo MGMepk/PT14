@@ -1,6 +1,7 @@
 <component name="ProjectDictionaryState">
   <dictionary name="iam53637842">
     <words>
+      <w>accedir</w>
       <w>acció</w>
       <w>activitat</w>
       <w>afegeix</w>
@@ -13,7 +14,13 @@
       <w>apagarà</w>
       <w>aprendre</w>
       <w>aquests</w>
+      <w>aquí</w>
+      <w>asincrona</w>
+      <w>asíncrones</w>
+      <w>autofill</w>
       <w>batt</w>
+      <w>bloquejar</w>
+      <w>bona</w>
       <w>botó</w>
       <w>buida</w>
       <w>buscar</w>
@@ -23,25 +30,35 @@
       <w>contacte</w>
       <w>contactes</w>
       <w>crear</w>
+      <w>crides</w>
       <w>càmera</w>
       <w>demana</w>
+      <w>demanar</w>
+      <w>denegat</w>
       <w>desfer</w>
       <w>desfeta</w>
       <w>deshabilitada</w>
+      <w>després</w>
       <w>diable</w>
       <w>dialeg</w>
+      <w>diàleg</w>
       <w>donats</w>
+      <w>donem</w>
       <w>entra</w>
+      <w>entés</w>
       <w>enviar</w>
       <w>escola</w>
       <w>escollir</w>
+      <w>esperant</w>
       <w>està</w>
       <w>examen</w>
       <w>exemple</w>
+      <w>explicació</w>
       <w>filtra</w>
       <w>flota</w>
       <w>força</w>
       <w>foto</w>
+      <w>fotos</w>
       <w>galeria</w>
       <w>gana</w>
       <w>gmail</w>
@@ -49,6 +66,7 @@
       <w>igual</w>
       <w>insertar</w>
       <w>intentar</w>
+      <w>introdueix</w>
       <w>invoca</w>
       <w>llista</w>
       <w>llistat</w>
@@ -64,7 +82,10 @@
       <w>navegador</w>
       <w>navegadors</w>
       <w>necesita</w>
+      <w>necessita</w>
+      <w>necessitem</w>
       <w>només</w>
+      <w>numero</w>
       <w>obrir</w>
       <w>ofereix</w>
       <w>oferir</w>
@@ -80,13 +101,18 @@
       <w>poder</w>
       <w>propi</w>
       <w>provem</w>
+      <w>pràctica</w>
+      <w>quan</w>
+      <w>resposta</w>
       <w>resultat</w>
       <w>retorni</w>
       <w>seguretat</w>
+      <w>seva</w>
       <w>sino</w>
       <w>snackbar</w>
       <w>sota</w>
       <w>spotify</w>
+      <w>telefon</w>
       <w>telèfon</w>
       <w>termux</w>
       <w>teva</w>

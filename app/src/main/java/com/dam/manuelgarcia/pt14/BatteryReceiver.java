@@ -23,7 +23,6 @@ public class BatteryReceiver extends BroadcastReceiver {
         if (Intent.ACTION_BATTERY_LOW.equals(intent.getAction())) {
             Intent batt = new Intent(context, LoadBattery.class);
             context.startActivity(batt);
-
             Toast.makeText(context, "Battery Low!!", Toast.LENGTH_LONG).show();
             Log.d(TAG, "Battery Low!, Entra a onReceive-" + intent.getAction());
         }

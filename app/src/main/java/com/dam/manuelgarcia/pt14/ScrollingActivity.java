@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -37,6 +36,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static android.net.ConnectivityManager.CONNECTIVITY_ACTION;
 import static java.util.Arrays.asList;
 
 public class ScrollingActivity extends AppCompatActivity {
@@ -52,8 +52,6 @@ public class ScrollingActivity extends AppCompatActivity {
     BroadcastReceiver battery = new BatteryReceiver();
 
 
-    private Bitmap bitmap;
-    private static final int REQUEST_IMAGE_PICK = 40;
     private static final int REQUEST_NEW_LINE = 20;
 
 
@@ -76,8 +74,8 @@ public class ScrollingActivity extends AppCompatActivity {
             }
         });
 
-        IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_LOW);
-//        filter.addAction(CONNECTIVITY_ACTION);
+        IntentFilter filter = new IntentFilter(CONNECTIVITY_ACTION);
+        filter.addAction(Intent.ACTION_BATTERY_LOW);
         filter.addAction(Intent.ACTION_BOOT_COMPLETED);
         registerReceiver(battery, filter);
 
@@ -100,6 +98,7 @@ public class ScrollingActivity extends AppCompatActivity {
         llista.add("Wifi"); //13
         llista.add("sms to");//14
         llista.add("Calculadora");//15
+        llista.add("Youtube");//16
 
         //tots trets de:
         //https://developer.android.com/guide/components/intents-common
@@ -252,11 +251,8 @@ public class ScrollingActivity extends AppCompatActivity {
                         }
                         break;
                     case 14:
-
                         intent = new Intent(Intent.ACTION_SEND);
-                        // intent.setData(Uri.parse("smsto"));  //no filtra
                         intent.putExtra("sms_body", "missatge");
-                        //  intent.putExtra(Intent.EXTRA_STREAM, "extra");
                         if (intent.resolveActivity(getPackageManager()) == null) {
                             Log.d("test", "Couldn't find it:alternatives showing");
                             intent = new Intent(Intent.ACTION_SEND);
@@ -272,12 +268,26 @@ public class ScrollingActivity extends AppCompatActivity {
                             Log.d("test", "Couldn't find it:alternatives showing");
                         } else startActivity(intent);
                         break;
-
+                    case 16:
+                        // TODO Youtube
+                        String search = "rock";
+                        intent = new Intent(Intent.ACTION_SEND);
+                        intent.putExtra(Intent.EXTRA_TEXT, search);
+                        intent.setType("text/plain");
+                        intent.setPackage("com.google.android.youtube");
+                        if (intent.resolveActivity(getPackageManager()) == null) {
+                            Log.d("test", "Couldn't find it:alternatives showing");
+                        } else startActivity(intent);
+                        break;
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + position);
                 }
 
             }
         });
     }
+
+    // TODO Notificacion Alarma.
 
 
     @Override
@@ -320,12 +330,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
         if (ActivityCompat.shouldShowRequestPermissionRationale(ScrollingActivity.this
                 , Manifest.permission.CAMERA)) {
-            // entra aquí quan
-            //l'ha denegat un primer cop, i torna després a demanar permís..
-            // vol dir que no ha entés el permís, li donem una explicació de per qué ho necessitem
-            // amb un menu de diàleg
 
-            //menu dialeg
             new AlertDialog.Builder(this)
                     .setTitle("Es necessita permís de càmera")
                     .setMessage("Per fer fotos necessitem accedir a la càmera")
@@ -343,16 +348,9 @@ public class ScrollingActivity extends AppCompatActivity {
                         }
                     })
                     .create().show();
-
-            // ActivityCompat.requestPermissions són crides asíncrones
-            // asincrona:no bloquejar el thread esperant la seva resposta
-            // Bona pràctica, try again to request the permission.
         } else {
-            // request the permission.
-            // CALLBACK_NUMBER is a integer constants
             ActivityCompat.requestPermissions(ScrollingActivity.this
                     , new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA);
-            // The callback method gets the result of the request.
         }
 
     }
@@ -418,7 +416,17 @@ public class ScrollingActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+        if (id == R.id.phone_call) {
+            startActivity(new Intent(this, Call.class));
+            return true;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(battery);
     }
 
     @Override
