@@ -23,6 +23,7 @@ public class Call extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call);
+        setTitle("Phone Call");
 
         phoneNumber = findViewById(R.id.phone_number);
         ImageView imageCall = findViewById(R.id.caller);

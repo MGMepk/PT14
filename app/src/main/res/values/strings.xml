@@ -93,4 +93,9 @@
     <string name="alert">Alerta: Carrega el mòbil o s\'apagarà!!!! Té gana</string>
     <string name="phone_call">Phone Call</string>
     <string name="call">call</string>
+    <string name="clica">Clica sobre la imatge per triar foto de la galeria</string>
+    <string name="image_from_gallery">Image From Gallery</string>
+    <string name="start_counter">Start Counter</string>
+    <string name="number_of_seconds">Number of seconds</string>
+    <string name="alarm_timer">Alarm Timer</string>
 </resources>

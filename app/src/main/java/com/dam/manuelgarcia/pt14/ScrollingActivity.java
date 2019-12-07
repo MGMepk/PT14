@@ -15,6 +15,7 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -41,7 +42,6 @@ import static java.util.Arrays.asList;
 
 public class ScrollingActivity extends AppCompatActivity {
 
-
     private ListView listView;
     ArrayList<String> llista;
     ArrayAdapter<String> arrayAdapter;
@@ -50,7 +50,6 @@ public class ScrollingActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_STORAGE = 50;
 
     BroadcastReceiver battery = new BatteryReceiver();
-
 
     private static final int REQUEST_NEW_LINE = 20;
 
@@ -62,7 +61,6 @@ public class ScrollingActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,11 +71,6 @@ public class ScrollingActivity extends AppCompatActivity {
 
             }
         });
-
-        IntentFilter filter = new IntentFilter(CONNECTIVITY_ACTION);
-        filter.addAction(Intent.ACTION_BATTERY_LOW);
-        filter.addAction(Intent.ACTION_BOOT_COMPLETED);
-        registerReceiver(battery, filter);
 
         /* A dalt, exemple de listener al floating action button (botó que flota, i permet una
         acció principal per exemple, se sol usar per crear un nou contacte al llistat de l agenda
@@ -99,6 +92,8 @@ public class ScrollingActivity extends AppCompatActivity {
         llista.add("sms to");//14
         llista.add("Calculadora");//15
         llista.add("Youtube");//16
+        llista.add("Firefox");//17
+        llista.add("Spotify");//18
 
         //tots trets de:
         //https://developer.android.com/guide/components/intents-common
@@ -207,12 +202,6 @@ public class ScrollingActivity extends AppCompatActivity {
                         intent.setType("text/plain");
                         intent.setPackage("org.telegram.messenger");
 
-                        // TODO: 19/11/19 obrir (intentar-ho al menys) aquests de sota a altres línies de la ListView
-                        // intent.setPackage("com.google.android.youtube");
-                        //intent.setPackage("com.spotify.music");
-                        //intent.setPackage("com.termux");
-                        // intent.setPackage("org.mozilla.firefox");
-
                         if (intent.resolveActivity(getPackageManager()) == null) {
                             Log.d("test", "Couldn't find it:alternatives showing");
                             intent = new Intent(Intent.ACTION_SEND);
@@ -269,16 +258,34 @@ public class ScrollingActivity extends AppCompatActivity {
                         } else startActivity(intent);
                         break;
                     case 16:
-                        // TODO Youtube
-                        String search = "rock";
-                        intent = new Intent(Intent.ACTION_SEND);
-                        intent.putExtra(Intent.EXTRA_TEXT, search);
-                        intent.setType("text/plain");
+                        // Youtube
+                        String youtUrl = "https://www.youtube.com/playlist?list=PLrnPJCHvNZuBqr_0AS9BPXgU6gvNeai5S";
+                        intent = new Intent(Intent.ACTION_VIEW, Uri.parse(youtUrl));
                         intent.setPackage("com.google.android.youtube");
                         if (intent.resolveActivity(getPackageManager()) == null) {
-                            Log.d("test", "Couldn't find it:alternatives showing");
+                            Log.d("test", "Couldn't find Youtube on this device");
                         } else startActivity(intent);
                         break;
+                    case 17:
+                        // Firefox
+                        String fireUrl = "https://developer.android.com/guide/components/intents-common#Settings";
+                        intent = new Intent(Intent.ACTION_VIEW, Uri.parse(fireUrl));
+                        intent.setPackage("org.mozilla.firefox");
+                        if (intent.resolveActivity(getPackageManager()) == null) {
+                            Log.d("test", "Couldn't find Firefox on this device");
+                        } else startActivity(intent);
+                        break;
+                    case 18:
+                        // Spotify
+                        String spotUrl = "https://www.spotify.com/es/";
+                        intent = new Intent(Intent.ACTION_VIEW, Uri.parse(spotUrl));
+                        intent.setPackage("com.spotify.music");
+                        if (intent.resolveActivity(getPackageManager()) == null) {
+                            Log.d("test", "Couldn't find Spotify on this device.");
+                        } else startActivity(intent);
+                        break;
+
+
                     default:
                         throw new IllegalStateException("Unexpected value: " + position);
                 }
@@ -286,9 +293,6 @@ public class ScrollingActivity extends AppCompatActivity {
             }
         });
     }
-
-    // TODO Notificacion Alarma.
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -357,7 +361,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_CAMERA: {
                 if (grantResults.length > 0
@@ -420,18 +424,27 @@ public class ScrollingActivity extends AppCompatActivity {
             startActivity(new Intent(this, Call.class));
             return true;
         }
+        // Notificacion Alarma.
+        if (id == R.id.alarm_timer) {
+            startActivity(new Intent(this, AlarmActivity.class));
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        unregisterReceiver(battery);
+    protected void onStart() {
+        super.onStart();
+        IntentFilter filter = new IntentFilter(CONNECTIVITY_ACTION);
+        filter.addAction(Intent.ACTION_BATTERY_LOW);
+        filter.addAction(Intent.ACTION_BOOT_COMPLETED);
+        registerReceiver(battery, filter);
     }
 
+
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+        super.onStop();
         unregisterReceiver(battery);
     }
 }
